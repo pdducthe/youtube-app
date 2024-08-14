@@ -10,8 +10,8 @@ In order to start the app, you can run `npm run start`
 
 ## Mock Account for Login
 For the purpose of simplifying app, login and logout features utilize mock account instead of real account from an external server.
-email: testuser@gmail.com
-password: testuser1234
+email: t0445639@gmail.com
+password: t0445639_anyMindGroup@
 
 ## Notes
 This app is still in development mode.
