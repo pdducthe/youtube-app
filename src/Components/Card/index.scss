@@ -1,0 +1,53 @@
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  border: 1px solid gray;
+  border-radius: 0.5rem;
+  cursor: pointer;
+
+  .left-container {
+    flex: 0 0 15%;
+
+    .image-container {
+      width: 3rem;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+  .right-container {
+    flex: 1;
+    padding-right: 1rem;
+    p {
+      text-align: left;
+      text-decoration: none;
+      color: black;
+    }
+    input{
+      border: none;
+    }
+    input.title {
+      font-weight: 400;
+      color: black;
+      font-size: 1rem;
+    }
+    p.title {
+      font-weight: 400;
+      color: black;
+
+      --max-lines: 2;
+      max-height: 2.8rem;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+    }
+    p.subtitle {
+      color: gray;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+.main-layout {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+
+  .sidebar {
+    flex: 0 0 calc(100% / 5);
+    background-color: rgb(245, 235, 235);
+  }
+
+  .main-content {
+    flex: 1;
+
+    min-height: 100vh;
+    padding: 2rem;
+  }
+}

@@ -1,0 +1,35 @@
+.left-sidebar {
+  padding: 1rem;
+  .tab-btn {
+    padding-inline-start: 0;
+
+    button {
+      display: flex;
+      align-items: center;
+      column-gap: 1rem;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      width: 80%;
+      border: none;
+      img.icon {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      a {
+        text-decoration: none;
+        color: black;
+
+        display: inline-block;
+        flex: 1;
+        text-align: left;
+        padding: 1rem 0;
+        margin: -1rem 0;
+      }
+    }
+
+    button.active {
+      background-color: #9897f5;
+    }
+  }
+}
