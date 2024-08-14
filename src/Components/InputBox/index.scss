@@ -1,0 +1,10 @@
+.base-input-box {
+  .action-btn {
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 0.5rem;
+    button {
+      width: 2.5rem;
+    }
+  }
+}

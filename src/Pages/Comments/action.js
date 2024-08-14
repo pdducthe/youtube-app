@@ -126,6 +126,33 @@ export const editTopCommentInOneVideo = async (payload) => {
   return response;
 };
 
+export const replyCommentInOneVideo = async (payload) => {
+  const { textOriginal, parentId } = payload;
+  const url = `${baseURL}/comments`;
+  const token = LocalStorageUtils.getGoogleAccessToken();
+
+  const response = axios({
+    method: "post",
+    url,
+    headers: { Authorization: `Bearer ${token}` },
+    params: {
+      part: "id, snippet",
+    },
+    data: {
+      snippet: {
+        parentId,
+        textOriginal,
+      },
+    },
+  })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      handleApiResponse(err);
+    });
+  return response;
+};
 
 export const removeCommentInOneVideo = async (payload) => {
   const { id } = payload;

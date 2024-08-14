@@ -8,17 +8,44 @@
         display: flex;
         column-gap: 0.5rem;
 
-        .card {
-          max-height: 5rem;
+        .left {
+          max-height: 10rem;
           width: 50%;
           margin: 10px 0;
+          .card {
+            width: 100%;
+          }
+
+          button.reply {
+            width: 3rem;
+            cursor: pointer;
+          }
+
+          .base-input-box {
+            width: 100%;
+            input {
+              width: 50%;
+            }
+            .action-btn {
+              width: 50%;
+              flex-direction: row;
+              justify-content: flex-end;
+              margin: 0.5rem 0;
+
+              .base-button {
+                width: 3.5rem;
+                height: 1.25rem;
+                padding: unset;
+              }
+            }
+          }
         }
+
         .action-btn.confirm {
           button {
             width: 4rem;
           }
         }
-
         .action-btn.hidden {
           display: none;
         }

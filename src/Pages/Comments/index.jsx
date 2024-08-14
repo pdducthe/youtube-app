@@ -28,7 +28,9 @@ import {
   getCommentListInOneVideo,
   getTokenForComment,
   removeCommentInOneVideo,
+  replyCommentInOneVideo,
 } from "./action";
+import BaseInputBox from "../../Components/InputBox";
 
 export default function CommentsPage() {
   const [isQueryList, setIsQueryList] = useState(false);
@@ -36,6 +38,11 @@ export default function CommentsPage() {
   const [videoIdInput, setVideoIdInput] = useState("");
   const [isFocusComment, setIsFocusComment] = useState(false);
   const [newComment, setNewComment] = useState("");
+  const [replyComment, setReplyComment] = useState({
+    visible: false,
+    parentCommentId: "",
+    content: "",
+  });
   const [channelId, setChannelId] = useState("");
   const [selectedCommentId, setSelectedCommentId] = useState("");
   const [updatedComment, setUpdatedComment] = useState("");
@@ -52,8 +59,18 @@ export default function CommentsPage() {
     !isFocusComment && setNewComment("");
   }, [isFocusComment]);
 
+  const handleReplyBtn = (id) => {
+    setReplyComment((state) => {
+      return { ...state, visible: true, parentCommentId: id };
+    });
+  };
   const getInputValue = (val) => {
     setUpdatedComment(val);
+  };
+  const getReplyInputValue = (val) => {
+    setReplyComment((state) => {
+      return { ...state, content: val };
+    });
   };
   const handleFocusComment = () => {
     setIsFocusComment(true);
@@ -61,6 +78,11 @@ export default function CommentsPage() {
   const handleCancelComment = () => {
     setIsFocusComment(false);
     setSelectedCommentId("");
+  };
+  const handleCancelReply = () => {
+    setReplyComment((state) => {
+      return { ...state, visible: false };
+    });
   };
 
   const btnActionClassname = useMemo(() => {
@@ -94,9 +116,9 @@ export default function CommentsPage() {
       }
 
       if (commentListRes && commentListRes.statusCode === 200) {
-        console.log("RESPONSE LIST", commentListRes.data)
         const commentList = commentListRes.data.items?.map((item) => {
-          const channelId = item.snippet.topLevelComment.snippet.authorChannelId?.value || "";
+          const channelId =
+            item.snippet.topLevelComment.snippet.authorChannelId?.value || "";
           const snippet = item.snippet.topLevelComment.snippet;
           return {
             id: item.id,
@@ -152,6 +174,17 @@ export default function CommentsPage() {
           return updateList;
         });
       }
+    }
+  };
+  const handleReplyComment = async (parentId) => {
+    const payload = {
+      textOriginal: replyComment.content,
+      parentId,
+    };
+    const isNotEmpty = Object.values(payload).every((x) => x !== "");
+    if (isNotEmpty) {
+      // @ts-ignore
+      await replyCommentInOneVideo(payload);
     }
   };
 
@@ -221,23 +254,51 @@ export default function CommentsPage() {
               {commentList?.map((item) => {
                 return (
                   <div className="card-container">
-                    <BaseCard
-                      key={
+                    <div className="left">
+                      <BaseCard
+                        key={
+                          // @ts-ignore
+                          item.id
+                        }
+                        getInputValue={getInputValue}
                         // @ts-ignore
-                        item.id
-                      }
-                      getInputValue={getInputValue}
-                      // @ts-ignore
-                      id={item.id}
-                      // @ts-ignore
-                      selectedCommentId={selectedCommentId}
-                      // @ts-ignore
-                      title={item.text}
-                      // @ts-ignore
-                      subtitle={item.authorName}
-                      // @ts-ignore
-                      image={item.authorAvatar}
-                    />
+                        id={item.id}
+                        // @ts-ignore
+                        selectedCommentId={selectedCommentId}
+                        // @ts-ignore
+                        title={item.text}
+                        // @ts-ignore
+                        subtitle={item.authorName}
+                        // @ts-ignore
+                        image={item.authorAvatar}
+                      />
+                      <BaseButton
+                        className="reply"
+                        onClick={() =>
+                          handleReplyBtn(
+                            // @ts-ignore
+                            item.id
+                          )
+                        }
+                      >
+                        Reply
+                      </BaseButton>
+                      {replyComment.visible &&
+                        replyComment.parentCommentId ===
+                          // @ts-ignore
+                          item.id && (
+                          <BaseInputBox
+                            input={{
+                              getReplyInputValue,
+                            }}
+                            button={{
+                              // @ts-ignore
+                              onOk: () => handleReplyComment(item.id),
+                              onCancel: handleCancelReply,
+                            }}
+                          />
+                        )}
+                    </div>
                     {
                       //@ts-ignore
                       item.channelId === channelId && (
